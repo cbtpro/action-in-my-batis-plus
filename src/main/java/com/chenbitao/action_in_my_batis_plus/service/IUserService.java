@@ -13,4 +13,5 @@ public interface IUserService extends IService<User> {
      * @return 更新是否成功
      */
     boolean updateById(Long id, Map<String, Object> updates);
+    User getUserById(Long id);
 }

@@ -1,10 +1,12 @@
 package com.chenbitao.action_in_my_batis_plus.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chenbitao.action_in_my_batis_plus.domain.User;
 import com.chenbitao.action_in_my_batis_plus.mapper.UserMapper;
 import com.chenbitao.action_in_my_batis_plus.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,6 @@ import java.util.Map;
 @Service
 public class UserService extends ServiceImpl<UserMapper, User> implements IUserService {
     // 可以在这里添加自定义的业务方法
-    
     /**
      * 自定义方法：根据用户名查询用户
      */
@@ -55,5 +56,11 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
 
         // 执行更新
         return this.update(wrapper);
+    }
+
+    @DS("slave1")
+    @Override
+    public User getUserById(Long id) {
+        return this.getById(id);
     }
 }

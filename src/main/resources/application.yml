@@ -1,12 +1,29 @@
 spring:
+  devtools:
+    restart:
+      enabled: false
   application:
     name: action-in-my-batis-plus
   datasource:
-    # 替换成你的数据库信息
-    url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-    username: root
-    password: rootpass
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    dynamic:
+      primary: primary   # 默认数据源
+      strict: false      # 如果没有匹配数据源则走默认
+      datasource:
+        primary:
+          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
+          username: root
+          password: rootpass
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave1:
+          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
+          username: root
+          password: rootpass
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave2:
+          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
+          username: root
+          password: rootpass
+          driver-class-name: com.mysql.cj.jdbc.Driver
 
 # MyBatis-Plus 配置
 mybatis-plus:
@@ -21,3 +38,8 @@ mybatis-plus:
       logic-delete-value: 1        # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0    # 逻辑未删除值(默认为 0)
       id-type: auto               # 主键ID自增
+
+logging:
+  level:
+    com.baomidou.dynamic.datasource: debug
+    com.zaxxer.hikari: debug
