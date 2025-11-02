@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chenbitao.action_in_my_batis_plus.domain.User;
 import com.chenbitao.action_in_my_batis_plus.service.IUserService;
 import com.chenbitao.action_in_my_batis_plus.service.impl.UserService;
+import com.chenbitao.action_in_my_batis_plus.vo.UserVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,12 +41,11 @@ public class UserController {
 
     @PostMapping("/save-or-update")
     public String saveOrUpdateUser(@RequestBody User user) {
-        boolean success = userService.saveOrUpdate(user);
-        return success ? "操作成功" : "操作失败";
+        return userService.saveOrUpdateUser(user);
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public UserVO getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
@@ -71,13 +71,13 @@ public class UserController {
     }
 
     @GetMapping("/page")
-    public Page<User> getUserPage(
+    public Page<UserVO> getUserPage(
             @RequestParam(defaultValue = "1") Integer current,
             @RequestParam(defaultValue = "10") Integer size) {
 
         Page<User> page = new Page<>(current, size);
 
-        return userService.page(page);
+        return userService.queryUserPage(page);
     }
 
     @GetMapping("/page-with-condition")

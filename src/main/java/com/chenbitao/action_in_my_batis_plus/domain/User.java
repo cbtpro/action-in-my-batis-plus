@@ -24,6 +24,11 @@ public class User {
      * 如果字段名与数据库列名一致（驼峰转下划线），可以省略 @TableField
      */
     private String username;
+
+    /**
+     * 用户名反转字符串，用于模糊查询
+     */
+    private String usernameReversal;
     
     /**
      * 年龄
@@ -34,6 +39,11 @@ public class User {
      * 邮箱
      */
     private String email;
+
+    /**
+     * 邮箱反转字符串，用于模糊查询
+     */
+    private String emailReversal;
     
     /**
      * 创建时间
