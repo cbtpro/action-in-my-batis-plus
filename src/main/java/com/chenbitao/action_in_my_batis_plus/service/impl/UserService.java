@@ -2,6 +2,7 @@ package com.chenbitao.action_in_my_batis_plus.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chenbitao.action_in_my_batis_plus.domain.User;
@@ -10,6 +11,10 @@ import com.chenbitao.action_in_my_batis_plus.service.IUserService;
 import com.chenbitao.action_in_my_batis_plus.vo.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -77,6 +82,14 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     }
 
     @Transactional
+    @DS("master")
+    @Override
+    public String addUser(User user) {
+        boolean bool = this.save(user);
+        return bool ? "新增用户成功" : "新增用户失败";
+    }
+
+    @Transactional
     @Override
     public String saveOrUpdateUser(User user) {
         boolean bool = this.saveOrUpdate(user);
@@ -86,7 +99,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     @DS("cluster1")
     @Override
     public Page<UserVO> queryUserPage(Page<User> page) {
-        // 转换 User -> UserVO
         Page<User> records = this.page(page);
 
         // 将转换后的数据设置回分页对象
@@ -106,5 +118,114 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
                 .toList());
 
         return voPage;
+    }
+
+    @Transactional
+    public String deleteOldUser() {
+        boolean success = this.lambdaUpdate()
+                .gt(User::getAge, 100)
+                .remove();
+        return success ? "删除老年用户成功" : "删除失败";
+    }
+
+    @Transactional
+    @Override
+    public String batchDeleteUsersByIds(List<Long> ids) {
+        boolean success = this.removeByIds(ids);
+        return success ? "批量删除成功" : "批量删除失败";
+    }
+
+    @Transactional
+    @Override
+    public String deleteUserById(Long id) {
+        // 逻辑删除，实际上执行的是 update 操作，将 deleted 字段设置为 1
+        boolean success = this.removeById(id);
+        return success ? "删除成功" : "删除失败";
+    }
+
+    @Transactional
+    @Override
+    public String addUsers(List<User> users) {
+        boolean success = this.saveBatch(users, 100);
+        return success ? "批量新增成功" : "批量新增失败";
+    }
+
+    @DS("cluster1")
+    @Override
+    public List<User> getAdultUsers() {
+        return this.lambdaQuery()
+                .gt(User::getAge, 18)
+                .list();
+    }
+
+    @DS("cluster1")
+    @Override
+    public List<User> getComplexUsers() {
+        return this.lambdaQuery()
+                .between(User::getAge, 18, 60)           // age between 18 and 60
+                .like(User::getUsername, "张")           // username like '%张%'
+                .orderByDesc(User::getAge)               // 按年龄降序
+                .list();
+    }
+
+    @DS("cluster1")
+    @Override
+    public Page<UserVO> getUserPageWithCondition(Page<User> page, String keyword) {
+
+        Page<User> records = this.lambdaQuery()
+                .like(StringUtils.isNotBlank(keyword), User::getUsername, keyword)
+                .page(page);
+
+        // 将转换后的数据设置回分页对象
+        Page<UserVO> voPage = new Page<>();
+        voPage.setCurrent(records.getCurrent());
+        voPage.setSize(records.getSize());
+        voPage.setTotal(records.getTotal());
+        voPage.setRecords(records.getRecords().stream()
+                .map(user -> UserVO.builder()
+                        .id(user.getId())
+                        .username(user.getUsername())
+                        .age(user.getAge())
+                        .createTime(user.getCreateTime())
+                        .updateTime(user.getUpdateTime())
+                        .deleted(user.getDeleted())
+                        .build())
+                .toList());
+        return voPage;
+    }
+
+    @Transactional
+    @Override
+    public String partialUpdateUser(Long id, Map<String, Object> updates) {
+        // 移除不能更新的字段
+        updates.remove("id");
+        updates.remove("createTime");
+
+        boolean success = this.updateById(id, updates);
+        return success ? "部分更新成功" : "部分更新失败";
+    }
+
+    @Transactional
+    @Override
+    public String updateUser(User user) {
+        if (user.getId() == null) {
+            return "用户ID不能为空";
+        }
+
+        // 方法1：根据ID更新所有字段
+        boolean success = this.updateById(user);
+
+        return success ? "更新成功" : "更新失败";
+    }
+
+    @Transactional
+    @Override
+    public String fixAge() {
+        boolean success = this.lambdaUpdate()
+                .lt(User::getAge, 18)        // age < 18
+                .set(User::getAge, 18)       // 设置 age = 18
+                .update();
+
+        return success ? "年龄修复成功" : "年龄修复失败";
     }
 }
