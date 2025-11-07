@@ -170,8 +170,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
 
     @DS("cluster1")
     @Override
-    public Page<UserVO> getUserPageWithCondition(Page<User> page, String keyword) {
-
+    public Page<UserVO> getUserPageWithCondition(Integer current, Integer size, String keyword) {
+        Page<User> page = new Page<>(current, size);
         Page<User> records = this.lambdaQuery()
                 .like(StringUtils.isNotBlank(keyword), User::getUsername, keyword)
                 .page(page);

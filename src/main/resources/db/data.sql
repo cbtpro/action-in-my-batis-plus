@@ -5,8 +5,8 @@ TRUNCATE TABLE t_base_user;
 INSERT INTO `t_base_user`
 (`id`, `username`, `username_reversal`, `age`, `email`, `email_reversal`, `create_time`, `update_time`, `deleted`)
 VALUES
-(1, 'Jone',  REVERSE('Jone'),  18, 'test1@baomidou.com', REVERSE('test1@baomidou.com'),  NOW(), NOW(), 0),
-(2, 'Jack',  REVERSE('Jack'),  20, 'test2@baomidou.com', REVERSE('test2@baomidou.com'),  NOW(), NOW(), 0),
-(3, 'Tom',   REVERSE('Tom'),   28, 'test3@baomidou.com', REVERSE('test3@baomidou.com'),  NOW(), NOW(), 0),
-(4, 'Sandy', REVERSE('Sandy'), 21, 'test4@baomidou.com', REVERSE('test4@baomidou.com'),  NOW(), NOW(), 0),
-(5, 'Billie',REVERSE('Billie'),24, 'test5@baomidou.com', REVERSE('test5@baomidou.com'),  NOW(), NOW(), 0);
+(1, 'Jone',  'enoJ',  18, 'test1@baomidou.com', 'moc.uodimoab@1tset',  NOW(), NOW(), 0),
+(2, 'Jack',  'kcaJ',  20, 'test2@baomidou.com', 'moc.uodimoab@2tset',  NOW(), NOW(), 0),
+(3, 'Tom',   'moT',   28, 'test3@baomidou.com', 'moc.uodimoab@3tset',  NOW(), NOW(), 0),
+(4, 'Sandy', 'ydnaS', 21, 'test4@baomidou.com', 'moc.uodimoab@4tset',  NOW(), NOW(), 0),
+(5, 'Billie','eilliB',24, 'test5@baomidou.com', 'moc.uodimoab@5tset',  NOW(), NOW(), 0);

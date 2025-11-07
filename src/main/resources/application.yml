@@ -1,3 +1,5 @@
+server:
+  port: 8091
 spring:
 #  profiles:
 #    active: dev
@@ -13,18 +15,18 @@ spring:
       datasource:
         primary:
           url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: root
-          password: rootpass
+          username: action-in-mybatis-plus
+          password: action-in-mybatis-plus
           driver-class-name: com.mysql.cj.jdbc.Driver
         cluster1:
           url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: root
-          password: rootpass
+          username: action-in-mybatis-plus
+          password: action-in-mybatis-plus
           driver-class-name: com.mysql.cj.jdbc.Driver
         cluster2:
           url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: root
-          password: rootpass
+          username: action-in-mybatis-plus
+          password: action-in-mybatis-plus
           driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:

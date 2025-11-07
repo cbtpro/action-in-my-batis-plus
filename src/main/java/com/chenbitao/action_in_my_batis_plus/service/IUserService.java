@@ -37,7 +37,7 @@ public interface IUserService extends IService<User> {
     String batchDeleteUsersByIds(List<Long> ids);
     List<User> getAdultUsers();
     List<User> getComplexUsers();
-    Page<UserVO> getUserPageWithCondition(Page<User> page, String keyword);
+    Page<UserVO> getUserPageWithCondition(Integer current, Integer size, String keyword);
     String partialUpdateUser(Long id, Map<String, Object> updates);
     String updateUser(User user);
     String fixAge();

@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chenbitao.action_in_my_batis_plus.domain.User;
 import com.chenbitao.action_in_my_batis_plus.service.IUserService;
+import com.chenbitao.action_in_my_batis_plus.service.IUserSessionService;
 import com.chenbitao.action_in_my_batis_plus.service.impl.UserService;
+import com.chenbitao.action_in_my_batis_plus.service.impl.UserSessionService;
 import com.chenbitao.action_in_my_batis_plus.vo.UserVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +18,11 @@ import java.util.Map;
 public class UserController {
 
     private final IUserService userService;
+    private final IUserSessionService userSessionService;
 
-    private UserController(UserService userService) {
+    private UserController(UserService userService, UserSessionService userSessionService) {
         this.userService = userService;
+        this.userSessionService = userSessionService;
     }
 
     @PostMapping
@@ -72,9 +76,7 @@ public class UserController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) String keyword) {
 
-        Page<User> page = new Page<>(current, size);
-
-        return userService.getUserPageWithCondition(page, keyword);
+        return userService.getUserPageWithCondition(current, size, keyword);
     }
 
     @PutMapping
