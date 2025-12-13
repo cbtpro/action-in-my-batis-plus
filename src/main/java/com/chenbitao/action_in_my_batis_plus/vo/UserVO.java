@@ -1,6 +1,5 @@
 package com.chenbitao.action_in_my_batis_plus.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.Builder;
 import lombok.Data;
 
@@ -33,7 +32,6 @@ public class UserVO {
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**

@@ -2,6 +2,7 @@ package com.chenbitao.action_in_my_batis_plus.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chenbitao.action_in_my_batis_plus.domain.User;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

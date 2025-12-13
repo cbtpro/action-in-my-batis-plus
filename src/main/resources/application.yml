@@ -1,37 +1,13 @@
 server:
   port: 8091
 spring:
-#  profiles:
-#    active: dev
+  profiles:
+    active: dev
   devtools:
     restart:
       enabled: true
   application:
-    name: x
-  datasource:
-    dynamic:
-      primary: primary   # 默认数据源
-      strict: false      # 如果没有匹配数据源则走默认
-      datasource:
-        primary:
-          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: action-in-mybatis-plus
-          password: action-in-mybatis-plus
-          driver-class-name: com.mysql.cj.jdbc.Driver
-        cluster1:
-          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: action-in-mybatis-plus
-          password: action-in-mybatis-plus
-          driver-class-name: com.mysql.cj.jdbc.Driver
-        cluster2:
-          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: action-in-mybatis-plus
-          password: action-in-mybatis-plus
-          driver-class-name: com.mysql.cj.jdbc.Driver
-  sql:
-    init:
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/data.sql
+    name: action-in-mybatis-plus
 
 # MyBatis-Plus 配置
 mybatis-plus:

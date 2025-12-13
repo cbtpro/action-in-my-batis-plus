@@ -1,6 +1,5 @@
 package com.chenbitao.action_in_my_batis_plus.service.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,11 +10,6 @@ import com.chenbitao.action_in_my_batis_plus.service.IUserService;
 import com.chenbitao.action_in_my_batis_plus.vo.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,6 +44,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     }
 
     @Override
+    @Transactional
     public boolean updateById(Long id, Map<String, Object> updates) {
         if (id == null || updates == null || updates.isEmpty()) {
             return false;
@@ -65,7 +60,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
         return this.update(wrapper);
     }
 
-    @DS("cluster1")
     @Override
     public UserVO getUserById(Long id) {
         User user = this.getById(id);
@@ -82,9 +76,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     }
 
     @Transactional
-    @DS("master")
     @Override
     public String addUser(User user) {
+        user.setUsernameReversal(new StringBuilder(user.getUsername()).reverse().toString());
+        user.setEmailReversal(new StringBuilder(user.getEmail()).reverse().toString());
         boolean bool = this.save(user);
         return bool ? "新增用户成功" : "新增用户失败";
     }
@@ -92,11 +87,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     @Transactional
     @Override
     public String saveOrUpdateUser(User user) {
+        user.setUsernameReversal(new StringBuilder(user.getUsername()).reverse().toString());
+        user.setEmailReversal(new StringBuilder(user.getEmail()).reverse().toString());
         boolean bool = this.saveOrUpdate(user);
         return bool ? "操作成功" : "操作失败";
     }
 
-    @DS("cluster1")
     @Override
     public Page<UserVO> queryUserPage(Page<User> page) {
         Page<User> records = this.page(page);
@@ -150,7 +146,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
         return success ? "批量新增成功" : "批量新增失败";
     }
 
-    @DS("cluster1")
     @Override
     public List<User> getAdultUsers() {
         return this.lambdaQuery()
@@ -158,7 +153,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
                 .list();
     }
 
-    @DS("cluster1")
     @Override
     public List<User> getComplexUsers() {
         return this.lambdaQuery()
@@ -168,7 +162,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
                 .list();
     }
 
-    @DS("cluster1")
     @Override
     public Page<UserVO> getUserPageWithCondition(Integer current, Integer size, String keyword) {
         Page<User> page = new Page<>(current, size);

@@ -1,6 +1,5 @@
 package com.chenbitao.action_in_my_batis_plus.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chenbitao.action_in_my_batis_plus.domain.User;
 import com.chenbitao.action_in_my_batis_plus.service.IUserService;
@@ -32,7 +31,11 @@ public class UserController {
 
     @PostMapping("/batch")
     public String addUsers(@RequestBody List<User> users) {
-        return userService.addUsers(users);
+        return userService.addUsers(users.stream().map(user-> {
+            user.setUsernameReversal(new StringBuilder(user.getUsername()).reverse().toString());
+            user.setEmailReversal(new StringBuilder(user.getEmail()).reverse().toString());
+            return user;
+        }).toList());
     }
 
     @PostMapping("/save-or-update")

@@ -5,45 +5,16 @@ spring:
     restart:
       enabled: true
   application:
-    name: x
+    name: action-in-mybatis-plus-dev
   datasource:
-    dynamic:
-      primary: primary   # 默认数据源
-      strict: false      # 如果没有匹配数据源则走默认
-      datasource:
-        primary:
-          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: action-in-mybatis-plus
-          password: action-in-mybatis-plus
-          driver-class-name: com.mysql.cj.jdbc.Driver
-        cluster1:
-          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: action-in-mybatis-plus
-          password: action-in-mybatis-plus
-          driver-class-name: com.mysql.cj.jdbc.Driver
-        cluster2:
-          url: jdbc:mysql://localhost:3306/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
-          username: action-in-mybatis-plus
-          password: action-in-mybatis-plus
-          driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
+    username: action-in-mybatis-plus
+    password: action-in-mybatis-plus
+    driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:
       schema-locations: classpath:db/schema.sql
       data-locations: classpath:db/data.sql
-
-# MyBatis-Plus 配置
-mybatis-plus:
-  configuration:
-    # 打印 SQL 日志，方便调试
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case: true  # 开启驼峰命名自动转换
-  global-config:
-    db-config:
-      # 逻辑删除配置
-      logic-delete-field: deleted  # 全局逻辑删除的实体字段名
-      logic-delete-value: 1        # 逻辑已删除值(默认为 1)
-      logic-not-delete-value: 0    # 逻辑未删除值(默认为 0)
-      id-type: auto               # 主键ID自增
 
 logging:
   level:
