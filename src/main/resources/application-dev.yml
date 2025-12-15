@@ -18,6 +18,11 @@ spring:
           username: action-in-mybatis-plus
           password: action-in-mybatis-plus
           driver-class-name: com.mysql.cj.jdbc.Driver
+          init:  
+            schema: classpath:db/schema.sql  # 建表脚本  
+            data: classpath:db/data.sql      # 插入数据脚本  
+            continue-on-error: false         # 是否在错误时继续  
+            separator: ;                     # SQL分隔符
         slave_1:
           url: jdbc:mysql://localhost:3308/action-in-mybatis-plus?useSSL=false&useUnicode=true&characterSetServer=utf8mb4&serverTimezone=Asia/Shanghai
           username: action-in-mybatis-plus
