@@ -1,5 +1,6 @@
 package com.chenbitao.action_in_my_batis_plus.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -61,6 +62,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     }
 
     @Override
+    // 组名为 slave 的数据源
+    @DS("slave")
+    // 改为 slave_1 以匹配 application.yml 中的配置
+    // @DS("slave_1")
     public UserVO getUserById(Long id) {
         User user = this.getById(id);
         return Optional.ofNullable(user)
@@ -94,6 +99,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     }
 
     @Override
+    @DS("slave_1")
     public Page<UserVO> queryUserPage(Page<User> page) {
         Page<User> records = this.page(page);
 
@@ -147,6 +153,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     }
 
     @Override
+    @DS("slave")
     public List<User> getAdultUsers() {
         return this.lambdaQuery()
                 .gt(User::getAge, 18)
